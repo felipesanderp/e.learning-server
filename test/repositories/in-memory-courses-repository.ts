@@ -1,7 +1,7 @@
 import { Course } from '@application/entities/course';
 import { CoursesRepository } from '@application/repositories/courses-repository';
 
-export class InMemoryNotificationsRepository implements CoursesRepository {
+export class InMemoryCoursesRepository implements CoursesRepository {
   public courses: Course[] = [];
 
   async create(course: Course): Promise<void> {
