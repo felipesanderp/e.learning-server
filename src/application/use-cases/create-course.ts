@@ -1,6 +1,7 @@
 import { CoursesRepository } from '../repositories/courses-repository';
 import { Injectable } from '@nestjs/common';
 import { Course } from '../entities/course';
+import { CourseAlreadyExists } from './errors/course-already-exists';
 
 interface CreateCourseRequest {
   title: string;
@@ -19,6 +20,12 @@ export class CreateCourse {
 
   async execute(request: CreateCourseRequest): Promise<CreateCourseResponse> {
     const { title, slug, description, imageURL } = request;
+
+    const courseAlreadyExists = await this.coursesRepository.findByTitle(title);
+
+    if (courseAlreadyExists) {
+      throw new CourseAlreadyExists();
+    }
 
     const course = new Course({
       title,
