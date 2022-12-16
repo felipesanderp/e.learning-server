@@ -16,4 +16,16 @@ describe('Create Course', () => {
     expect(coursesRepository.courses).toHaveLength(1);
     expect(coursesRepository.courses[0]).toEqual(course);
   });
+
+  it('should not be ale to create a course with a existing title', async () => {
+    const coursesRepository = new InMemoryCoursesRepository();
+    const createCourse = new CreateCourse(coursesRepository);
+
+    const { course } = await createCourse.execute({
+      title: 'title-example',
+      slug: 'slug-example',
+      description: 'description-example',
+      imageURL: 'image-url-example',
+    });
+  });
 });
