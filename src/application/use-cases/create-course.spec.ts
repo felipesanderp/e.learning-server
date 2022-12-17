@@ -1,5 +1,6 @@
 import { CreateCourse } from './create-course';
 import { InMemoryCoursesRepository } from '../../../test/repositories/in-memory-courses-repository';
+import { CourseAlreadyExists } from './errors/course-already-exists';
 
 describe('Create Course', () => {
   it('should be able to create a course', async () => {
@@ -21,11 +22,20 @@ describe('Create Course', () => {
     const coursesRepository = new InMemoryCoursesRepository();
     const createCourse = new CreateCourse(coursesRepository);
 
-    const { course } = await createCourse.execute({
-      title: 'title-example',
-      slug: 'slug-example',
-      description: 'description-example',
-      imageURL: 'image-url-example',
-    });
+    expect(async () => {
+      await createCourse.execute({
+        title: 'title-example',
+        slug: 'slug-example',
+        description: 'description-example',
+        imageURL: 'image-url-example',
+      });
+
+      await createCourse.execute({
+        title: 'title-example',
+        slug: 'slug-example',
+        description: 'description-example',
+        imageURL: 'image-url-example',
+      });
+    }).rejects.toThrow(CourseAlreadyExists);
   });
 });
