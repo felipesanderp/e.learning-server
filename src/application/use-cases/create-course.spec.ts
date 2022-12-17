@@ -9,8 +9,7 @@ describe('Create Course', () => {
     const createCourse = new CreateCourse(coursesRepository);
 
     const { course } = await createCourse.execute({
-      title: 'title-example',
-      slug: 'slug-example',
+      title: 'Title Course',
       description: new Description('course-description'),
       imageURL: 'image-url-example',
     });

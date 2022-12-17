@@ -3,10 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { Course } from '../entities/course';
 import { CourseAlreadyExists } from './errors/course-already-exists';
 import { Description } from '@application/entities/description';
+import slugify from 'slugify';
 
 interface CreateCourseRequest {
   title: string;
-  slug: string;
+  slug?: string;
   description: Description;
   imageURL: string;
 }
@@ -20,7 +21,9 @@ export class CreateCourse {
   constructor(private coursesRepository: CoursesRepository) {}
 
   async execute(request: CreateCourseRequest): Promise<CreateCourseResponse> {
-    const { title, slug, description, imageURL } = request;
+    const { title, description, imageURL } = request;
+
+    const slug = slugify(title, { lower: true });
 
     const courseAlreadyExists = await this.coursesRepository.findByTitle(title);
 

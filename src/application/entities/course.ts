@@ -4,7 +4,7 @@ import { Description } from './description';
 
 export interface CourseProps {
   title: string;
-  slug: string;
+  slug?: string;
   description: Description;
   imageURL: string;
   createdAt: Date;
@@ -34,11 +34,11 @@ export class Course {
     return this.props.title;
   }
 
-  public set slug(slug: string) {
+  public set slug(slug: string | undefined) {
     this.props.slug = slug;
   }
 
-  public get slug(): string {
+  public get slug(): string | undefined {
     return this.props.slug;
   }
 
