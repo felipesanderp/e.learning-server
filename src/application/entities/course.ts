@@ -1,10 +1,11 @@
 import { randomUUID } from 'crypto';
 import { Replace } from '@helpers/Replace';
+import { Description } from './description';
 
 export interface CourseProps {
   title: string;
   slug: string;
-  description: string;
+  description: Description;
   imageURL: string;
   createdAt: Date;
 }
@@ -41,11 +42,11 @@ export class Course {
     return this.props.slug;
   }
 
-  public set description(description: string) {
+  public set description(description: Description) {
     this.props.description = description;
   }
 
-  public get description(): string {
+  public get description(): Description {
     return this.props.description;
   }
 
