@@ -6,4 +6,12 @@ describe('Course description', () => {
 
     expect(description).toBeTruthy();
   });
+
+  it('should not be able to create a course description with less than 5 characters', () => {
+    expect(() => new Description('aaa')).toThrow();
+  });
+
+  it('should not be able to create a course description with more than 240 characters', () => {
+    expect(() => new Description('a'.repeat(241))).toThrow();
+  });
 });
