@@ -11,7 +11,7 @@ export interface LessonProps {
   createdAt: Date;
 }
 
-export class Course {
+export class Lesson {
   private _id: string;
   private props: LessonProps;
 
