@@ -1,6 +1,6 @@
 import { CreateCourse } from './create-course';
-import { InMemoryCoursesRepository } from '../../../test/repositories/in-memory-courses-repository';
-import { CourseAlreadyExists } from './errors/course-already-exists';
+import { InMemoryCoursesRepository } from '../../../../test/repositories/in-memory-courses-repository';
+import { CourseAlreadyExists } from '../errors/course-already-exists';
 import { Description } from '@application/entities/description';
 
 describe('Create Course', () => {

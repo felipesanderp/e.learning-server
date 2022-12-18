@@ -1,6 +1,6 @@
-import { CoursesRepository } from '../repositories/courses-repository';
+import { CoursesRepository } from '../../repositories/courses-repository';
 import { Injectable } from '@nestjs/common';
-import { Course } from '../entities/course';
+import { Course } from '../../entities/course';
 
 interface GetAllCoursesResponse {
   courses: Course[];

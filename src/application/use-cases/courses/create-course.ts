@@ -1,7 +1,7 @@
-import { CoursesRepository } from '../repositories/courses-repository';
+import { CoursesRepository } from '../../repositories/courses-repository';
 import { Injectable } from '@nestjs/common';
-import { Course } from '../entities/course';
-import { CourseAlreadyExists } from './errors/course-already-exists';
+import { Course } from '../../entities/course';
+import { CourseAlreadyExists } from '../errors/course-already-exists';
 import { Description } from '@application/entities/description';
 import slugify from 'slugify';
 

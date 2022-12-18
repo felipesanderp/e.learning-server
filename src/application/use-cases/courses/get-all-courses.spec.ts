@@ -1,5 +1,5 @@
-import { InMemoryCoursesRepository } from '../../../test/repositories/in-memory-courses-repository';
-import { makeCourse } from '../../../test/factories/course-factory';
+import { InMemoryCoursesRepository } from '../../../../test/repositories/in-memory-courses-repository';
+import { makeCourse } from '../../../../test/factories/course-factory';
 import { GetAllCourses } from './get-all-courses';
 
 describe('Get All Courses', () => {
