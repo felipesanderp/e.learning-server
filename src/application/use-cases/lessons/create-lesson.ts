@@ -2,6 +2,7 @@ import { Description } from '@application/entities/description';
 import { Lesson } from '@application/entities/lesson';
 import { LessonsRepository } from '@application/repositories/lessons-repository';
 import { Injectable } from '@nestjs/common';
+import { LessonAlreadyExists } from '../errors/lesson-already-exists';
 
 interface CreateLessonRequest {
   name: string;
@@ -21,6 +22,10 @@ export class CreateLesson {
 
   async execute(request: CreateLessonRequest): Promise<CreateLessonResponse> {
     const { name, description, duration, video_id, course_id } = request;
+
+    const lessonAlreadyExists = await this.lessonsRepository.findByName(name);
+
+    if (lessonAlreadyExists) throw new LessonAlreadyExists();
 
     const lesson = new Lesson({
       name,
