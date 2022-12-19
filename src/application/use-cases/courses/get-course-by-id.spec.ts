@@ -26,6 +26,7 @@ describe('Get Course by ID', () => {
     const { course } = await getCourseById.execute(courseCreated.id);
 
     expect(coursesRepository.courses[0]).toEqual(course);
+    expect(course).toEqual(expect.objectContaining({ _id: courseCreated.id }));
   });
 
   it('should not be able to get a course that does not exist', async () => {
