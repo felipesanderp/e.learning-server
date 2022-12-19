@@ -1,6 +1,6 @@
-import { Course } from '@application/entities/course';
 import { Description } from '@application/entities/description';
 import { InMemoryCoursesRepository } from '@test/repositories/in-memory-courses-repository';
+import { CourseNotFound } from '../errors/course-not-found';
 import { CreateCourse } from './create-course';
 import { GetCourseById } from './get-course-by-id';
 
@@ -16,7 +16,7 @@ describe('Get Course by ID', () => {
   });
 
   it('should be able to find a course by id', async () => {
-    const courseCreated = new Course({
+    const { course: courseCreated } = await createCourse.execute({
       title: 'title-example',
       slug: 'slug-example',
       description: new Description('course-description'),
@@ -25,6 +25,14 @@ describe('Get Course by ID', () => {
 
     const { course } = await getCourseById.execute(courseCreated.id);
 
-    expect(courseCreated).toEqual(course);
+    expect(coursesRepository.courses[0]).toEqual(course);
+  });
+
+  it('should not be able to get a course that does not exist', async () => {
+    const fakeId = 'fake-course-id';
+
+    expect(async () => {
+      await getCourseById.execute(fakeId);
+    }).rejects.toThrow(CourseNotFound);
   });
 });
