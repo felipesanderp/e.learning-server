@@ -24,6 +24,16 @@ export class InMemoryLessonsRepository implements LessonsRepository {
     return lesson;
   }
 
+  async findLessonByCourseId(courseId: string): Promise<Lesson | null> {
+    const lesson = this.lessons.find((item) => item.course_id === courseId);
+
+    if (!lesson) {
+      return null;
+    }
+
+    return lesson;
+  }
+
   async create(lesson: Lesson): Promise<void> {
     this.lessons.push(lesson);
   }
