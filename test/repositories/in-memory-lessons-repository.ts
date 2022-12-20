@@ -4,6 +4,16 @@ import { LessonsRepository } from '@application/repositories/lessons-repository'
 export class InMemoryLessonsRepository implements LessonsRepository {
   public lessons: Lesson[] = [];
 
+  async findById(id: string): Promise<Lesson | null> {
+    const lesson = this.lessons.find((item) => item.id === id);
+
+    if (!lesson) {
+      return null;
+    }
+
+    return lesson;
+  }
+
   async findByName(name: string): Promise<Lesson | null> {
     const lesson = this.lessons.find((item) => item.name === name);
 
