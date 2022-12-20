@@ -27,4 +27,10 @@ export class InMemoryLessonsRepository implements LessonsRepository {
   async create(lesson: Lesson): Promise<void> {
     this.lessons.push(lesson);
   }
+
+  async remove(id: string): Promise<void> {
+    const lessonIndex = this.lessons.findIndex((item) => item.id === id);
+
+    this.lessons.splice(lessonIndex, 1);
+  }
 }
