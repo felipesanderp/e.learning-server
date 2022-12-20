@@ -2,6 +2,7 @@ import { Description } from '../../entities/description';
 import { InMemoryLessonsRepository } from '../../../../test/repositories/in-memory-lessons-repository';
 import { CreateLesson } from './create-lesson';
 import { RemoveLesson } from './remove-lesson';
+import { LessonNotFound } from '../errors/lesson-not-found';
 
 let lessonsRepository: InMemoryLessonsRepository;
 let createLesson: CreateLesson;
@@ -25,5 +26,13 @@ describe('Remove Lesson', () => {
     await removeLesson.execute(lesson.id);
 
     expect(lessonsRepository.lessons).toHaveLength(0);
+  });
+
+  it('should not be able to remove a non existing lesson', async () => {
+    const fakeId = 'fake-lesson-id';
+
+    expect(async () => {
+      await removeLesson.execute(fakeId);
+    }).rejects.toThrow(LessonNotFound);
   });
 });
