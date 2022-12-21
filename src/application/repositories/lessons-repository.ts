@@ -5,5 +5,7 @@ export abstract class LessonsRepository {
   abstract findByName(name: string): Promise<Lesson | null>;
   abstract findById(id: string): Promise<Lesson | null>;
   abstract remove(id: string): Promise<void>;
-  abstract findLessonByCourseId(courseId: string): Promise<Lesson | null>;
+  abstract findLessonByCourseId(
+    courseId: string | undefined,
+  ): Promise<Lesson | null>;
 }
