@@ -1,20 +1,20 @@
 import { EnrollmentsRepository } from '@application/repositories/enrollments-repository';
-import { Injectable } from '@nestjs/common/decorators';
+import { Injectable } from '@nestjs/common';
 import { EnrollmentNotFound } from '../errors/enrollment-not-found';
 
-interface CancelNotificationRequest {
+interface CancelEnrollmentRequest {
   enrollmentId: string;
 }
 
-type CancelNotificationResponse = void;
+type CancelEnrollmentResponse = void;
 
 @Injectable()
 export class CancelEnrollment {
   constructor(private enrollmentsRepository: EnrollmentsRepository) {}
 
   async execute(
-    request: CancelNotificationRequest,
-  ): Promise<CancelNotificationResponse> {
+    request: CancelEnrollmentRequest,
+  ): Promise<CancelEnrollmentResponse> {
     const { enrollmentId } = request;
 
     const enrollment = await this.enrollmentsRepository.findById(enrollmentId);
