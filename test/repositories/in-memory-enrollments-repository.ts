@@ -16,6 +16,28 @@ export class InMemoryEnrollmentsRepository implements EnrollmentsRepository {
     return enrollment;
   }
 
+  async findByCourseId(courseId: string): Promise<Enrollment | null> {
+    const enrollment = this.enrollments.find(
+      (item) => item.courseId === courseId,
+    );
+
+    if (!enrollment) {
+      return null;
+    }
+
+    return enrollment;
+  }
+
+  async findByUserId(userId: string): Promise<Enrollment | null> {
+    const enrollment = this.enrollments.find((item) => item.userId === userId);
+
+    if (!enrollment) {
+      return null;
+    }
+
+    return enrollment;
+  }
+
   async create(enrollment: Enrollment): Promise<void> {
     this.enrollments.push(enrollment);
   }
