@@ -9,11 +9,23 @@ export class PrismaCoursesRepository implements CoursesRepository {
   constructor(private prisma: PrismaService) {}
 
   async findByTitle(title: string): Promise<Course | null> {
-    throw new Error('Method not implemented.');
+    const course = await this.prisma.courses.findFirst({
+      where: {
+        title,
+      },
+    });
+
+    if (!course) {
+      return null;
+    }
+
+    return PrismaCourseMapper.toDomain(course);
   }
 
   async findAllCourses(): Promise<Course[]> {
-    throw new Error('Method not implemented.');
+    const courses = await this.prisma.courses.findMany();
+
+    return courses.map(PrismaCourseMapper.toDomain);
   }
 
   async findById(id: string): Promise<Course | null> {
