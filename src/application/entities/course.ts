@@ -4,7 +4,7 @@ import { Description } from './description';
 
 export interface CourseProps {
   title: string;
-  slug?: string;
+  slug?: string | undefined;
   description: Description;
   imageURL: string;
   createdAt: Date;

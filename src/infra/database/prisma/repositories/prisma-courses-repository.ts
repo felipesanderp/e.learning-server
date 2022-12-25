@@ -43,10 +43,18 @@ export class PrismaCoursesRepository implements CoursesRepository {
   }
 
   async create(course: Course): Promise<void> {
-    throw new Error('Method not implemented.');
+    const raw = PrismaCourseMapper.toPrisma(course);
+
+    await this.prisma.courses.create({
+      data: raw,
+    });
   }
 
   async remove(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    await this.prisma.courses.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

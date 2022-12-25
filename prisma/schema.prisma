@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Courses {
-  id          String @id
-  title       String @unique
-  slug        String @unique
+  id          String  @id
+  title       String  @unique
+  slug        String? @unique
   description String
   imageURL    String
 
