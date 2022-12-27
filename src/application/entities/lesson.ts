@@ -8,6 +8,7 @@ export interface LessonProps {
   duration: number;
   video_id: string;
   course_id?: string;
+  canceledAt?: Date | null;
   createdAt: Date;
 }
 
@@ -61,6 +62,14 @@ export class Lesson {
 
   public get course_id(): string | undefined {
     return this.props.course_id;
+  }
+
+  public cancel() {
+    this.props.canceledAt = new Date();
+  }
+
+  public get canceledAt(): Date | null | undefined {
+    return this.props.canceledAt;
   }
 
   public get createdAt(): Date {
