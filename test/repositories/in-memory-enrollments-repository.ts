@@ -21,7 +21,7 @@ export class InMemoryEnrollmentsRepository implements EnrollmentsRepository {
       (item) => item.courseId === courseId,
     );
 
-    if (!enrollments) {
+    if (!enrollments.length) {
       return null;
     }
 
@@ -33,7 +33,7 @@ export class InMemoryEnrollmentsRepository implements EnrollmentsRepository {
       (item) => item.userId === userId,
     );
 
-    if (!enrollments) {
+    if (!enrollments.length) {
       return null;
     }
 

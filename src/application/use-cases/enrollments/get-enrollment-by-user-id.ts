@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { EnrollmentNotFound } from '../errors/enrollment-not-found';
 
 interface GetEnrollmentByUserIdResponse {
-  enrollment: Enrollment;
+  enrollments: Enrollment[];
 }
 
 @Injectable()
@@ -12,14 +12,14 @@ export class GetEnrollmentByUserId {
   constructor(private enrollmentsRepository: EnrollmentsRepository) {}
 
   async execute(userId: string): Promise<GetEnrollmentByUserIdResponse> {
-    const enrollment = await this.enrollmentsRepository.findByUserId(userId);
+    const enrollments = await this.enrollmentsRepository.findByUserId(userId);
 
-    if (!enrollment) {
+    if (!enrollments) {
       throw new EnrollmentNotFound();
     }
 
     return {
-      enrollment,
+      enrollments,
     };
   }
 }

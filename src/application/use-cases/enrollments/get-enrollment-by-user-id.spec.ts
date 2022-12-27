@@ -14,11 +14,11 @@ describe('Enrollment by User ID', () => {
 
     await enrollmentsRepository.create(enrollmentCreated);
 
-    const { enrollment } = await getEnrollmentByUserId.execute(
+    const { enrollments } = await getEnrollmentByUserId.execute(
       enrollmentCreated.userId,
     );
 
-    expect(enrollmentsRepository.enrollments[0]).toEqual(enrollment);
+    expect(enrollments).toHaveLength(1);
     expect(enrollmentsRepository.enrollments[0]).toEqual(
       expect.objectContaining({ userId: 'user-id' }),
     );
