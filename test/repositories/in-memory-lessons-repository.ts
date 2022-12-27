@@ -14,6 +14,10 @@ export class InMemoryLessonsRepository implements LessonsRepository {
     return lesson;
   }
 
+  async findAllAvailableLessons(): Promise<Lesson[]> {
+    return this.lessons.filter((item) => item.canceledAt === null);
+  }
+
   async findByName(name: string): Promise<Lesson | null> {
     const lesson = this.lessons.find((item) => item.name === name);
 
@@ -36,6 +40,14 @@ export class InMemoryLessonsRepository implements LessonsRepository {
 
   async create(lesson: Lesson): Promise<void> {
     this.lessons.push(lesson);
+  }
+
+  async save(lesson: Lesson): Promise<void> {
+    const lessonIndex = this.lessons.findIndex((item) => item.id === lesson.id);
+
+    if (lessonIndex >= 0) {
+      this.lessons[lessonIndex] = lesson;
+    }
   }
 
   async remove(id: string): Promise<void> {
