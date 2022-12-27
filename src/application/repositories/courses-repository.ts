@@ -6,4 +6,5 @@ export abstract class CoursesRepository {
   abstract findAllCourses(): Promise<Course[]>;
   abstract findById(id: string): Promise<Course | null>;
   abstract remove(id: string): Promise<void>;
+  abstract save(course: Course): Promise<void>;
 }

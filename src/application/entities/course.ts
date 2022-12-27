@@ -7,6 +7,7 @@ export interface CourseProps {
   slug?: string | undefined;
   description: Description;
   imageURL: string;
+  canceledAt?: Date | null;
   createdAt: Date;
 }
 
@@ -56,6 +57,14 @@ export class Course {
 
   public get imageURL(): string {
     return this.props.imageURL;
+  }
+
+  public cancel() {
+    this.props.canceledAt = new Date();
+  }
+
+  public get canceledAt(): Date | null | undefined {
+    return this.props.canceledAt;
   }
 
   public get createdAt(): Date {
