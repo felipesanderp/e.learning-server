@@ -5,7 +5,7 @@ export class InMemoryCoursesRepository implements CoursesRepository {
   public courses: Course[] = [];
 
   async findAllCourses(): Promise<Course[]> {
-    return this.courses;
+    return this.courses.filter((item) => item.canceledAt !== null);
   }
 
   async findById(id: string): Promise<Course | null> {
