@@ -28,6 +28,16 @@ export class PrismaCoursesRepository implements CoursesRepository {
     return courses.map(PrismaCourseMapper.toDomain);
   }
 
+  async findAllAvailableCourses(): Promise<Course[]> {
+    const courses = await this.prisma.courses.findMany({
+      where: {
+        canceledAt: null,
+      },
+    });
+
+    return courses.map(PrismaCourseMapper.toDomain);
+  }
+
   async findById(id: string): Promise<Course | null> {
     const course = await this.prisma.courses.findUnique({
       where: {

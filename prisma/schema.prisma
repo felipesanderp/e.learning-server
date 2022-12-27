@@ -17,5 +17,6 @@ model Courses {
   description String
   imageURL    String
 
-  createdAt DateTime @default(now())
+  canceledAt DateTime?
+  createdAt  DateTime  @default(now())
 }
