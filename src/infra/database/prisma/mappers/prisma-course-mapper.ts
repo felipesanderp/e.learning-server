@@ -1,6 +1,7 @@
 import { Courses as RawCourses } from '@prisma/client';
 import { Course } from '@application/entities/course';
 import { Description } from '@application/entities/description';
+import slugify from 'slugify';
 
 export class PrismaCourseMapper {
   static toPrisma(course: Course) {
@@ -8,17 +9,19 @@ export class PrismaCourseMapper {
       id: course.id,
       title: course.title,
       slug: course.slug,
-      description: course.description,
+      description: course.description.value,
       imageURL: course.imageURL,
       createdAt: course.createdAt,
     };
   }
 
   static toDomain(raw: RawCourses) {
+    const slug = slugify(raw.title, { lower: true });
+
     return new Course(
       {
         title: raw.title,
-        slug: raw.slug,
+        slug,
         imageURL: raw.imageURL,
         description: new Description(raw.description),
         createdAt: raw.createdAt,

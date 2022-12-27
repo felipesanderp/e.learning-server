@@ -57,4 +57,15 @@ export class PrismaCoursesRepository implements CoursesRepository {
       },
     });
   }
+
+  async save(course: Course): Promise<void> {
+    const raw = PrismaCourseMapper.toPrisma(course);
+
+    await this.prisma.courses.update({
+      where: {
+        id: raw.id,
+      },
+      data: raw,
+    });
+  }
 }
