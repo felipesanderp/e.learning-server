@@ -5,10 +5,10 @@ import { LessonNotFound } from '../errors/lesson-not-found';
 
 interface UpdateLessonRequest {
   lesson: {
-    name: string;
-    description: Description;
-    duration: number;
-    video_id: string;
+    name?: string;
+    description?: Description;
+    duration?: number;
+    video_id?: string;
   };
   lessonId: string;
 }
@@ -24,10 +24,10 @@ export class UpdateLesson {
 
     if (!findLesson) throw new LessonNotFound();
 
-    findLesson.name = lesson.name;
-    findLesson.description = lesson.description;
-    findLesson.duration = lesson.duration;
-    findLesson.video_id = lesson.video_id;
+    if (lesson.name) findLesson.name = lesson.name;
+    if (lesson.description) findLesson.description = lesson.description;
+    if (lesson.duration) findLesson.duration = lesson.duration;
+    if (lesson.video_id) findLesson.video_id = lesson.video_id;
 
     await this.lessonsRepository.save(findLesson);
   }
