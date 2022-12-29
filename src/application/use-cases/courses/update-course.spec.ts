@@ -1,3 +1,4 @@
+import { Description } from '@application/entities/description';
 import { makeCourse } from '@test/factories/course-factory';
 import { InMemoryCoursesRepository } from '@test/repositories/in-memory-courses-repository';
 import { CourseNotFound } from '../errors/course-not-found';
@@ -16,6 +17,8 @@ describe('Update Course', () => {
       courseId: createCourse.id,
       course: {
         title: 'New Course Title',
+        description: new Description('new-course-description'),
+        imageURL: 'new-image-url',
       },
     });
 

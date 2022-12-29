@@ -1,3 +1,4 @@
+import { Description } from '@application/entities/description';
 import { makeLesson } from '@test/factories/lesson-factory';
 import { InMemoryLessonsRepository } from '@test/repositories/in-memory-lessons-repository';
 import { LessonNotFound } from '../errors/lesson-not-found';
@@ -17,6 +18,8 @@ describe('Update Lesson', () => {
       lesson: {
         name: 'new-lesson-name',
         duration: 150,
+        video_id: 'new-video-id',
+        description: new Description('new-lesson-description'),
       },
     });
 
