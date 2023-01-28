@@ -1,8 +1,8 @@
-import { Config } from 'jest';
+import { Config } from '@jest/types';
 import { pathsToModuleNameMapper } from 'ts-jest';
 import { compilerOptions } from './tsconfig.json';
 
-const config: Config = {
+const config: Config.InitialOptions = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   testRegex: '.*\\.spec\\.ts$',
   transform: {
