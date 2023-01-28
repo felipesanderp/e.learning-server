@@ -5,8 +5,11 @@ import NodeEnvironment from 'jest-environment-node';
 import { Client } from 'pg';
 import util from 'node:util';
 import crypto from 'node:crypto';
+import path from 'node:path';
 
-dotenv.config({ path: '.env.testing' });
+dotenv.config({
+  path: path.resolve('.env.testing'),
+});
 
 const execSync = util.promisify(exec);
 
