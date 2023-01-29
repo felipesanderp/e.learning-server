@@ -1,8 +1,23 @@
 import request from 'supertest';
-import { CoursesController } from './courses.controller';
+import { Test } from '@nestjs/testing';
 
-test('[e2e] GetAllCourses', async () => {
-  const response = await request(CoursesController).get('courses');
+import { INestApplication } from '@nestjs/common';
+import { DatabaseModule } from '@infra/database/database.module';
+import { HttpModule } from '../http.module';
 
-  expect(response.status).toBe(200);
+let app: INestApplication;
+
+beforeAll(async () => {
+  const moduleRef = await Test.createTestingModule({
+    imports: [DatabaseModule, HttpModule],
+  }).compile();
+
+  app = moduleRef.createNestApplication();
+  await app.init();
+});
+
+it('/GET courses', async () => {
+  const response = await request(app.getHttpServer())
+    .get('/courses')
+    .expect(200);
 });
