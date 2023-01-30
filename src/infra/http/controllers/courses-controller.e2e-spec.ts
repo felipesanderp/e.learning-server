@@ -17,7 +17,11 @@ beforeAll(async () => {
 });
 
 it('/GET courses', async () => {
-  await request(app.getHttpServer()).get('/courses').expect(200);
+  const response = await request(app.getHttpServer())
+    .get('/courses')
+    .expect(200);
+
+  expect(response.body).toEqual(expect.objectContaining({ courses: [] }));
 });
 
 it('/POST new course', async () => {
