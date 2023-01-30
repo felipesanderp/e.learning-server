@@ -8,7 +8,7 @@ import slugify from 'slugify';
 interface CreateCourseRequest {
   title: string;
   slug?: string;
-  description: Description;
+  description: string;
   imageURL: string;
 }
 
@@ -34,7 +34,7 @@ export class CreateCourse {
     const course = new Course({
       title,
       slug,
-      description,
+      description: new Description(description),
       imageURL,
     });
 

@@ -1,4 +1,3 @@
-import { Description } from '@application/entities/description';
 import { InMemoryCoursesRepository } from '@test/repositories/in-memory-courses-repository';
 import { CourseNotFound } from '../errors/course-not-found';
 import { CreateCourse } from './create-course';
@@ -19,7 +18,7 @@ describe('Get Course by ID', () => {
     const { course: courseCreated } = await createCourse.execute({
       title: 'title-example',
       slug: 'slug-example',
-      description: new Description('course-description'),
+      description: 'course-description',
       imageURL: 'image-url-example',
     });
 
