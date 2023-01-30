@@ -6,12 +6,14 @@ import { CreateCourse } from '@application/use-cases/courses/create-course';
 
 import { CourseViewModel } from '../view-models/course-view-model';
 import { CreateCourseBody } from '../dtos/create-course-body';
+import { GetAllAvailableCourses } from '@application/use-cases/courses/get-all-available-courses';
 
 @Controller('courses')
 export class CoursesController {
   constructor(
     private getAllCourses: GetAllCourses,
     private getCourseById: GetCourseById,
+    private getAllAvailableCourses: GetAllAvailableCourses,
     private createCourse: CreateCourse,
   ) {}
 
@@ -30,6 +32,15 @@ export class CoursesController {
 
     return {
       course: CourseViewModel.toHTTP(course),
+    };
+  }
+
+  @Get('/available')
+  async getAvailableCourses() {
+    const { courses } = await this.getAllAvailableCourses.execute();
+
+    return {
+      courses: courses.map(CourseViewModel.toHTTP),
     };
   }
 
