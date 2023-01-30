@@ -17,7 +17,16 @@ beforeAll(async () => {
 });
 
 it('/GET courses', async () => {
-  const response = await request(app.getHttpServer())
-    .get('/courses')
-    .expect(200);
+  await request(app.getHttpServer()).get('/courses').expect(200);
+});
+
+it('/POST new course', async () => {
+  const response = await request(app.getHttpServer()).post('/courses').send({
+    title: 'New Course',
+    description: 'Course Description',
+    imageURL: 'image-url-example',
+  });
+
+  expect(response.status).toBe(201);
+  expect(response.body.error).toBeFalsy();
 });
