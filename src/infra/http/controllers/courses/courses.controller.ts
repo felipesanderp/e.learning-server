@@ -4,8 +4,8 @@ import { GetAllCourses } from '@application/use-cases/courses/get-all-courses';
 import { GetCourseById } from '@application/use-cases/courses/get-course-by-id';
 import { CreateCourse } from '@application/use-cases/courses/create-course';
 
-import { CourseViewModel } from '../view-models/course-view-model';
-import { CreateCourseBody } from '../dtos/create-course-body';
+import { CourseViewModel } from '../../view-models/course-view-model';
+import { CreateCourseBody } from '../../dtos/create-course-body';
 import { GetAllAvailableCourses } from '@application/use-cases/courses/get-all-available-courses';
 
 @Controller('courses')

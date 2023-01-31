@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 
 import { INestApplication } from '@nestjs/common';
 import { DatabaseModule } from '@infra/database/database.module';
-import { HttpModule } from '../http.module';
+import { HttpModule } from '../../http.module';
 
 let app: INestApplication;
 
