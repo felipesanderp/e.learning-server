@@ -8,6 +8,7 @@ export class CourseViewModel {
       slug: course.slug,
       description: course.description,
       imageURL: course.imageURL,
+      isAvailable: course.isAvailable,
       canceledAt: course.canceledAt,
     };
   }

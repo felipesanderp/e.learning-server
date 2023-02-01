@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 
 import { GetAllCourses } from '@application/use-cases/courses/get-all-courses';
 import { GetCourseById } from '@application/use-cases/courses/get-course-by-id';
@@ -7,6 +7,7 @@ import { CreateCourse } from '@application/use-cases/courses/create-course';
 import { CourseViewModel } from '../../view-models/course-view-model';
 import { CreateCourseBody } from '../../dtos/create-course-body';
 import { GetAllAvailableCourses } from '@application/use-cases/courses/get-all-available-courses';
+import { CancelCourse } from '@application/use-cases/courses/cancel-course';
 
 @Controller('courses')
 export class CoursesController {
@@ -15,6 +16,7 @@ export class CoursesController {
     private getCourseById: GetCourseById,
     private getAllAvailableCourses: GetAllAvailableCourses,
     private createCourse: CreateCourse,
+    private cancelCourse: CancelCourse,
   ) {}
 
   @Get()
@@ -35,12 +37,21 @@ export class CoursesController {
     };
   }
 
-  @Get('/available')
-  async getAvailableCourses() {
-    const { courses } = await this.getAllAvailableCourses.execute();
+  // @Get('/available')
+  // async getAvailableCourses() {
+  //   const { courses } = await this.getAllAvailableCourses.execute();
+
+  //   return {
+  //     courses,
+  //   };
+  // }
+
+  @Patch(':id/cancel')
+  async cancelCourseById(@Param('id') id: string) {
+    const { course } = await this.cancelCourse.execute(id);
 
     return {
-      courses: courses.map(CourseViewModel.toHTTP),
+      course: CourseViewModel.toHTTP(course),
     };
   }
 

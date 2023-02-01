@@ -48,6 +48,19 @@ describe('Course Controller', () => {
     expect(response.status).toBe(404);
   });
 
+  // it('(GET) should be able to get all available courses', async () => {
+  //   await request(app.getHttpServer()).post('/courses').send({
+  //     title: 'available-course',
+  //     description: 'Course Description',
+  //     imageURL: 'image-url-example',
+  //     canceledAt: null,
+  //   });
+
+  //   const response = await request(app.getHttpServer())
+  //     .get('/courses/available')
+  //     .expect(200);
+  // });
+
   it('(POST) should be able to create a new course', async () => {
     const response = await request(app.getHttpServer()).post('/courses').send({
       title: 'New Course Title',
@@ -74,5 +87,20 @@ describe('Course Controller', () => {
     });
 
     expect(response.status).toBe(400);
+  });
+
+  it('(PATCH) should be able to cancel a course', async () => {
+    const course = await request(app.getHttpServer()).post('/courses').send({
+      title: 'cancel-course-title',
+      description: 'course-description',
+      imageURL: 'image-url-example',
+    });
+
+    const response = await request(app.getHttpServer())
+      .patch(`/courses/${course.body.course.id}/cancel`)
+      .expect(200);
+
+    expect(response.body.course.isAvailable).toBeFalsy();
+    expect(response.body.course).toHaveProperty('canceledAt');
   });
 });

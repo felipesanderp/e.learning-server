@@ -17,6 +17,8 @@ model Courses {
   description String
   imageURL    String
 
+  isAvailable Boolean? @default(true)
+
   canceledAt DateTime?
   createdAt  DateTime  @default(now())
 }

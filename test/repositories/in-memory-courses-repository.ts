@@ -9,7 +9,7 @@ export class InMemoryCoursesRepository implements CoursesRepository {
   }
 
   async findAllAvailableCourses(): Promise<Course[]> {
-    return this.courses.filter((item) => item.canceledAt === null);
+    return this.courses.filter((item) => item.isAvailable === true);
   }
 
   async findById(id: string): Promise<Course | null> {

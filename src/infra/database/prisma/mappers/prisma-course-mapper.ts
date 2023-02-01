@@ -11,6 +11,7 @@ export class PrismaCourseMapper {
       slug: course.slug,
       description: course.description.value,
       imageURL: course.imageURL,
+      isAvailable: course.isAvailable,
       canceledAt: course.canceledAt,
       createdAt: course.createdAt,
     };
@@ -25,6 +26,7 @@ export class PrismaCourseMapper {
         slug,
         imageURL: raw.imageURL,
         description: new Description(raw.description),
+        isAvailable: raw.isAvailable,
         canceledAt: raw.canceledAt,
         createdAt: raw.createdAt,
       },

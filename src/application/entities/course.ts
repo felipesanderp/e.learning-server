@@ -7,6 +7,7 @@ export interface CourseProps {
   slug?: string | undefined;
   description: Description;
   imageURL: string;
+  isAvailable?: boolean | null;
   canceledAt?: Date | null;
   createdAt: Date;
 }
@@ -59,7 +60,12 @@ export class Course {
     return this.props.imageURL;
   }
 
+  public get isAvailable(): boolean | null | undefined {
+    return this.props.isAvailable;
+  }
+
   public cancel() {
+    this.props.isAvailable = false;
     this.props.canceledAt = new Date();
   }
 

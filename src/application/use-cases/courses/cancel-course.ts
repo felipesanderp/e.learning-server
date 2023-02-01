@@ -1,8 +1,11 @@
+import { Course } from '@application/entities/course';
 import { CoursesRepository } from '@application/repositories/courses-repository';
 import { Injectable } from '@nestjs/common';
 import { CourseNotFound } from '../errors/course-not-found';
 
-type CancelCourseResponse = void;
+interface CancelCourseResponse {
+  course: Course;
+}
 
 @Injectable()
 export class CancelCourse {
@@ -18,5 +21,9 @@ export class CancelCourse {
     course.cancel();
 
     await this.coursesRepository.save(course);
+
+    return {
+      course,
+    };
   }
 }
