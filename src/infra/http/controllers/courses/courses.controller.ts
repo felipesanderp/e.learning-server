@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 
 import { GetAllCourses } from '@application/use-cases/courses/get-all-courses';
 import { GetCourseById } from '@application/use-cases/courses/get-course-by-id';
@@ -6,17 +14,17 @@ import { CreateCourse } from '@application/use-cases/courses/create-course';
 
 import { CourseViewModel } from '../../view-models/course-view-model';
 import { CreateCourseBody } from '../../dtos/create-course-body';
-import { GetAllAvailableCourses } from '@application/use-cases/courses/get-all-available-courses';
 import { CancelCourse } from '@application/use-cases/courses/cancel-course';
+import { RemoveCourse } from '@application/use-cases/courses/remove-course';
 
 @Controller('courses')
 export class CoursesController {
   constructor(
     private getAllCourses: GetAllCourses,
     private getCourseById: GetCourseById,
-    private getAllAvailableCourses: GetAllAvailableCourses,
     private createCourse: CreateCourse,
     private cancelCourse: CancelCourse,
+    private removeCourse: RemoveCourse,
   ) {}
 
   @Get()
@@ -37,15 +45,6 @@ export class CoursesController {
     };
   }
 
-  @Patch(':id/cancel')
-  async cancelCourseById(@Param('id') id: string) {
-    const { course } = await this.cancelCourse.execute(id);
-
-    return {
-      course: CourseViewModel.toHTTP(course),
-    };
-  }
-
   @Post()
   async create(@Body() body: CreateCourseBody) {
     const { title, description, imageURL } = body;
@@ -57,5 +56,19 @@ export class CoursesController {
     });
 
     return { course: CourseViewModel.toHTTP(course) };
+  }
+
+  @Patch(':id/cancel')
+  async cancelCourseById(@Param('id') id: string) {
+    const { course } = await this.cancelCourse.execute(id);
+
+    return {
+      course: CourseViewModel.toHTTP(course),
+    };
+  }
+
+  @Delete(':id/remove')
+  async deleteCourse(@Param('id') id: string) {
+    await this.removeCourse.execute(id);
   }
 }

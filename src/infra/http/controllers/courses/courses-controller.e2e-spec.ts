@@ -90,4 +90,16 @@ describe('Course Controller', () => {
     expect(response.body.course.isAvailable).toBeFalsy();
     expect(response.body.course).toHaveProperty('canceledAt');
   });
+
+  it('(DELETE) should be able to delete a course', async () => {
+    const course = await request(app.getHttpServer()).post('/courses').send({
+      title: 'delete-course-title',
+      description: 'course-description',
+      imageURL: 'image-url-example',
+    });
+
+    await request(app.getHttpServer())
+      .delete(`/courses/${course.body.course.id}/remove`)
+      .expect(200);
+  });
 });
