@@ -91,6 +91,15 @@ describe('Course Controller', () => {
     expect(response.body.course).toHaveProperty('canceledAt');
   });
 
+  it('(PATCH) should not be able to cancel a non existing course', async () => {
+    const response = await request(app.getHttpServer()).patch(
+      '/courses/non-existing-course/cancel',
+    );
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Course not found!');
+  });
+
   it('(DELETE) should be able to delete a course', async () => {
     const course = await request(app.getHttpServer()).post('/courses').send({
       title: 'delete-course-title',
@@ -101,5 +110,11 @@ describe('Course Controller', () => {
     await request(app.getHttpServer())
       .delete(`/courses/${course.body.course.id}/remove`)
       .expect(200);
+  });
+
+  it('(DELETE) should not be able to remove a non existing course', async () => {
+    await request(app.getHttpServer())
+      .patch('/courses/non-existing-course/remove')
+      .expect(404);
   });
 });
