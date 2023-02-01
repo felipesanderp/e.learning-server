@@ -37,15 +37,6 @@ export class CoursesController {
     };
   }
 
-  // @Get('/available')
-  // async getAvailableCourses() {
-  //   const { courses } = await this.getAllAvailableCourses.execute();
-
-  //   return {
-  //     courses,
-  //   };
-  // }
-
   @Patch(':id/cancel')
   async cancelCourseById(@Param('id') id: string) {
     const { course } = await this.cancelCourse.execute(id);

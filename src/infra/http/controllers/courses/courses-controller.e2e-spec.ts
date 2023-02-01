@@ -48,19 +48,6 @@ describe('Course Controller', () => {
     expect(response.status).toBe(404);
   });
 
-  // it('(GET) should be able to get all available courses', async () => {
-  //   await request(app.getHttpServer()).post('/courses').send({
-  //     title: 'available-course',
-  //     description: 'Course Description',
-  //     imageURL: 'image-url-example',
-  //     canceledAt: null,
-  //   });
-
-  //   const response = await request(app.getHttpServer())
-  //     .get('/courses/available')
-  //     .expect(200);
-  // });
-
   it('(POST) should be able to create a new course', async () => {
     const response = await request(app.getHttpServer()).post('/courses').send({
       title: 'New Course Title',
