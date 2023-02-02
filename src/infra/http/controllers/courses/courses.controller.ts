@@ -6,16 +6,19 @@ import {
   Param,
   Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 
 import { GetAllCourses } from '@application/use-cases/courses/get-all-courses';
 import { GetCourseById } from '@application/use-cases/courses/get-course-by-id';
 import { CreateCourse } from '@application/use-cases/courses/create-course';
-
-import { CourseViewModel } from '../../view-models/course-view-model';
-import { CreateCourseBody } from '../../dtos/create-course-body';
+import { UpdateCourse } from '@application/use-cases/courses/update-course';
 import { CancelCourse } from '@application/use-cases/courses/cancel-course';
 import { RemoveCourse } from '@application/use-cases/courses/remove-course';
+
+import { CourseViewModel } from '../../view-models/course-view-model';
+import { CreateCourseBody } from '../../dtos/courses/create-course-body';
+import { UpdateCourseBody } from '../../dtos/courses/update-course-body';
 
 @Controller('courses')
 export class CoursesController {
@@ -23,6 +26,7 @@ export class CoursesController {
     private getAllCourses: GetAllCourses,
     private getCourseById: GetCourseById,
     private createCourse: CreateCourse,
+    private updateCourse: UpdateCourse,
     private cancelCourse: CancelCourse,
     private removeCourse: RemoveCourse,
   ) {}
@@ -56,6 +60,24 @@ export class CoursesController {
     });
 
     return { course: CourseViewModel.toHTTP(course) };
+  }
+
+  @Put(':id/update')
+  async update(@Param('id') id: string, @Body() body: UpdateCourseBody) {
+    const { title, description, imageURL } = body;
+
+    const { course } = await this.updateCourse.execute({
+      courseId: id,
+      course: {
+        title,
+        description,
+        imageURL,
+      },
+    });
+
+    return {
+      course: CourseViewModel.toHTTP(course),
+    };
   }
 
   @Patch(':id/cancel')
