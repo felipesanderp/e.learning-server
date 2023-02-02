@@ -8,6 +8,7 @@ import { GetCourseById } from '@application/use-cases/courses/get-course-by-id';
 import { CreateCourse } from '@application/use-cases/courses/create-course';
 import { CancelCourse } from '@application/use-cases/courses/cancel-course';
 import { RemoveCourse } from '@application/use-cases/courses/remove-course';
+import { UpdateCourse } from '@application/use-cases/courses/update-course';
 
 @Module({
   imports: [DatabaseModule],
@@ -16,6 +17,7 @@ import { RemoveCourse } from '@application/use-cases/courses/remove-course';
     GetAllCourses,
     GetCourseById,
     CreateCourse,
+    UpdateCourse,
     CancelCourse,
     RemoveCourse,
   ],
