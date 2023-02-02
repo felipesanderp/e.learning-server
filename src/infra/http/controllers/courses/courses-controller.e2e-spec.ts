@@ -76,6 +76,36 @@ describe('Course Controller', () => {
     expect(response.status).toBe(400);
   });
 
+  it('(PUT) should be able to update a course', async () => {
+    const course = await request(app.getHttpServer()).post('/courses').send({
+      title: 'update-course',
+      description: 'Course Description',
+      imageURL: 'image-url-example',
+    });
+
+    const response = await request(app.getHttpServer())
+      .put(`/courses/${course.body.course.id}/update`)
+      .send({
+        title: 'course-title-updated',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.course.title).toEqual('course-title-updated');
+    expect(response.body.course.description).toEqual(
+      expect.objectContaining({ description: 'Course Description' }),
+    );
+  });
+
+  it('(PUT) should not be able to update a non existing course', async () => {
+    const response = await request(app.getHttpServer())
+      .put('/courses/non-existing-course-id/update')
+      .send({
+        title: 'course-title-updated',
+      });
+
+    expect(response.status).toBe(404);
+  });
+
   it('(PATCH) should be able to cancel a course', async () => {
     const course = await request(app.getHttpServer()).post('/courses').send({
       title: 'cancel-course-title',
