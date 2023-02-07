@@ -1,4 +1,3 @@
-import { Description } from '../../entities/description';
 import { InMemoryLessonsRepository } from '../../../../test/repositories/in-memory-lessons-repository';
 import { CreateLesson } from './create-lesson';
 import { LessonAlreadyExists } from '../errors/lesson-already-exists';
@@ -10,7 +9,7 @@ describe('Create Lesson', () => {
 
     const { lesson } = await createLesson.execute({
       name: 'lesson-example',
-      description: new Description('lesson-description-example'),
+      description: 'lesson-description-example',
       duration: 120,
       video_id: 'video-id-example',
       course_id: 'course-id-example',
@@ -27,7 +26,7 @@ describe('Create Lesson', () => {
     expect(async () => {
       await createLesson.execute({
         name: 'lesson-example',
-        description: new Description('lesson-description-example'),
+        description: 'lesson-description-example',
         duration: 120,
         video_id: 'video-id-example',
         course_id: 'course-id-example',
@@ -35,7 +34,7 @@ describe('Create Lesson', () => {
 
       await createLesson.execute({
         name: 'lesson-example',
-        description: new Description('lesson-description-example'),
+        description: 'lesson-description-example',
         duration: 120,
         video_id: 'video-id-example',
         course_id: 'course-id-example',
