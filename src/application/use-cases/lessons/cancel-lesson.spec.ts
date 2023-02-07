@@ -3,7 +3,7 @@ import { InMemoryLessonsRepository } from '../../../../test/repositories/in-memo
 import { CourseNotFound } from '../errors/course-not-found';
 import { CancelLesson } from './cancel-lesson';
 
-describe('Cancel Course', () => {
+describe('Cancel Lesson', () => {
   it('should be able to cancel a lesson', async () => {
     const lessonsRepository = new InMemoryLessonsRepository();
     const cancelLesson = new CancelLesson(lessonsRepository);
