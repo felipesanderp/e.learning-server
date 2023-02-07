@@ -6,7 +6,7 @@ import { LessonAlreadyExists } from '../errors/lesson-already-exists';
 
 interface CreateLessonRequest {
   name: string;
-  description: Description;
+  description: string;
   duration: number;
   video_id: string;
   course_id?: string;
@@ -29,7 +29,7 @@ export class CreateLesson {
 
     const lesson = new Lesson({
       name,
-      description,
+      description: new Description(description),
       duration,
       video_id,
       course_id,
