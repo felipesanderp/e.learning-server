@@ -11,13 +11,14 @@ export class LessonsController {
 
   @Post()
   async create(@Body() body: CreateLessonBody) {
-    const { name, description, duration, video_id } = body;
+    const { name, description, duration, video_id, course_id } = body;
 
     const { lesson } = await this.createLesson.execute({
       name,
       description,
       duration,
       video_id,
+      course_id,
     });
 
     return { lesson: LessonViewModel.toHTTP(lesson) };
