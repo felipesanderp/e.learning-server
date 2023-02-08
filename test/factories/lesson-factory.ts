@@ -9,6 +9,7 @@ export function makeLesson(override: Override = {}) {
     description: new Description('lesson-description'),
     duration: 120,
     video_id: 'video-id',
+    isAvailable: true,
     canceledAt: null,
     ...override,
   });

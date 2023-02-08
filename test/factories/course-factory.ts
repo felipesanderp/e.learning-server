@@ -9,6 +9,7 @@ export function makeCourse(override: Override = {}) {
     slug: 'slug-example',
     description: new Description('course-description'),
     imageURL: 'image-url-example',
+    isAvailable: true,
     canceledAt: null,
     ...override,
   });
