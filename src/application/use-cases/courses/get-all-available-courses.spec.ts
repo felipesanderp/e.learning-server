@@ -12,7 +12,11 @@ describe('Get All Courses', () => {
     await coursesRepository.create(makeCourse({ title: 'course-1' }));
 
     await coursesRepository.create(
-      makeCourse({ title: 'course-2', canceledAt: new Date() }),
+      makeCourse({
+        title: 'course-2',
+        isAvailable: false,
+        canceledAt: new Date(),
+      }),
     );
 
     const { courses } = await getAllAvailableCourses.execute();

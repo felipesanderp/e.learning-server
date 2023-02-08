@@ -3,7 +3,7 @@ import { makeLesson } from '../../../../test/factories/lesson-factory';
 import { GetAllAvailableLessons } from './get-all-available-lessons';
 
 describe('Get All Available Lessons', () => {
-  it('should be able to get all available courses', async () => {
+  it('should be able to get all available lessons', async () => {
     const lessonsRepository = new InMemoryLessonsRepository();
     const getAllAvailableLessons = new GetAllAvailableLessons(
       lessonsRepository,
@@ -12,7 +12,11 @@ describe('Get All Available Lessons', () => {
     await lessonsRepository.create(makeLesson({ name: 'lesson-1' }));
 
     await lessonsRepository.create(
-      makeLesson({ name: 'lesson-2', canceledAt: new Date() }),
+      makeLesson({
+        name: 'lesson-2',
+        isAvailable: false,
+        canceledAt: new Date(),
+      }),
     );
 
     const { lessons } = await getAllAvailableLessons.execute();

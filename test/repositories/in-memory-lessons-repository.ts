@@ -15,7 +15,7 @@ export class InMemoryLessonsRepository implements LessonsRepository {
   }
 
   async findAllAvailableLessons(): Promise<Lesson[]> {
-    return this.lessons.filter((item) => item.canceledAt === null);
+    return this.lessons.filter((item) => item.isAvailable === true);
   }
 
   async findByName(name: string): Promise<Lesson | null> {
