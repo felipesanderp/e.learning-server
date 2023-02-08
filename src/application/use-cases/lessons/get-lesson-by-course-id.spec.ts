@@ -1,4 +1,3 @@
-import { Description } from '../../../application/entities/description';
 import { InMemoryLessonsRepository } from '../../../../test/repositories/in-memory-lessons-repository';
 import { CreateLesson } from './create-lesson';
 import { GetLessonByCourseId } from './get-lesson-by-course-id';
@@ -12,7 +11,7 @@ describe('Lesson by Course ID', () => {
 
     const { lesson: lessonCreated } = await createLesson.execute({
       name: 'lesson-example',
-      description: new Description('lesson-description-example'),
+      description: 'lesson-description-example',
       duration: 120,
       video_id: 'video-id-example',
       course_id: 'course-id-example',
