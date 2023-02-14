@@ -65,6 +65,10 @@ export class Lesson {
     return this.props.course_id;
   }
 
+  public set course_id(course_id: string | undefined) {
+    this.props.course_id = course_id;
+  }
+
   public get isAvailable(): boolean | null | undefined {
     this.props.isAvailable = false;
     return this.props.isAvailable;
