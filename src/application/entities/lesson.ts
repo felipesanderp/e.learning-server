@@ -70,11 +70,11 @@ export class Lesson {
   }
 
   public get isAvailable(): boolean | null | undefined {
-    this.props.isAvailable = false;
     return this.props.isAvailable;
   }
 
   public cancel() {
+    this.props.isAvailable = false;
     this.props.canceledAt = new Date();
   }
 
