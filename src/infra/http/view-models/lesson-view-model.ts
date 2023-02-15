@@ -7,6 +7,7 @@ export class LessonViewModel {
       name: lesson.name,
       description: lesson.description,
       video_id: lesson.video_id,
+      isAvailable: lesson.isAvailable,
       canceledAt: lesson.canceledAt,
       course_id: lesson.course_id,
     };
