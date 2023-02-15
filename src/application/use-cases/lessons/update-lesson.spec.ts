@@ -1,4 +1,3 @@
-import { Description } from '@application/entities/description';
 import { makeCourse } from '@test/factories/course-factory';
 import { makeLesson } from '@test/factories/lesson-factory';
 import { InMemoryCoursesRepository } from '@test/repositories/in-memory-courses-repository';
@@ -23,7 +22,7 @@ describe('Update Lesson', () => {
         name: 'new-lesson-name',
         duration: 150,
         video_id: 'new-video-id',
-        description: new Description('new-lesson-description'),
+        description: 'new-lesson-description',
       },
     });
 
