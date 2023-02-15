@@ -4,6 +4,10 @@ import { LessonsRepository } from '@application/repositories/lessons-repository'
 export class InMemoryLessonsRepository implements LessonsRepository {
   public lessons: Lesson[] = [];
 
+  async findAllLessons(): Promise<Lesson[]> {
+    return this.lessons;
+  }
+
   async findById(id: string): Promise<Lesson | null> {
     const lesson = this.lessons.find((item) => item.id === id);
 
