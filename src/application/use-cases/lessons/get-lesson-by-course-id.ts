@@ -12,7 +12,7 @@ export class GetLessonByCourseId {
   constructor(private lessonsRepository: LessonsRepository) {}
 
   async execute(
-    courseId: string | undefined,
+    courseId: string | undefined | null,
   ): Promise<GetLessonByCourseIdResponse> {
     const lesson = await this.lessonsRepository.findLessonByCourseId(courseId);
 

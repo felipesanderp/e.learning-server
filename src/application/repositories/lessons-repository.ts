@@ -9,6 +9,6 @@ export abstract class LessonsRepository {
   abstract save(lesson: Lesson): Promise<void>;
   abstract findAllAvailableLessons(): Promise<Lesson[]>;
   abstract findLessonByCourseId(
-    courseId: string | undefined,
+    courseId: string | undefined | null,
   ): Promise<Lesson | null>;
 }
