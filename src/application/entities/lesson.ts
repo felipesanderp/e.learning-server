@@ -7,7 +7,7 @@ export interface LessonProps {
   description: Description;
   duration: number;
   video_id: string;
-  course_id?: string;
+  course_id?: string | null;
   isAvailable?: boolean | null;
   canceledAt?: Date | null;
   createdAt: Date;
@@ -61,11 +61,11 @@ export class Lesson {
     return this.props.video_id;
   }
 
-  public get course_id(): string | undefined {
+  public get course_id(): string | undefined | null {
     return this.props.course_id;
   }
 
-  public set course_id(course_id: string | undefined) {
+  public set course_id(course_id: string | undefined | null) {
     this.props.course_id = course_id;
   }
 
