@@ -29,7 +29,17 @@ export class PrismaLessonsRepository implements LessonsRepository {
   }
 
   async findById(id: string): Promise<Lesson | null> {
-    throw new Error('Method not implemented.');
+    const lesson = await this.prisma.lessons.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!lesson) {
+      return null;
+    }
+
+    return PrismaLessonMapper.toDomain(lesson);
   }
 
   async findAllLessons(): Promise<Lesson[]> {
