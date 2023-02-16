@@ -20,6 +20,6 @@ import { PrismaLessonsRepository } from './prisma/repositories/prisma-lessons-re
       useClass: PrismaLessonsRepository,
     },
   ],
-  exports: [CoursesRepository],
+  exports: [CoursesRepository, LessonsRepository],
 })
 export class DatabaseModule {}
