@@ -87,6 +87,13 @@ export class PrismaLessonsRepository implements LessonsRepository {
   }
 
   async save(lesson: Lesson): Promise<void> {
-    throw new Error('Method not implemented.');
+    const raw = PrismaLessonMapper.toPrisma(lesson);
+
+    await this.prisma.lessons.update({
+      where: {
+        id: raw.id,
+      },
+      data: raw,
+    });
   }
 }

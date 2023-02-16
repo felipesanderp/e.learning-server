@@ -6,7 +6,7 @@ export class PrismaLessonMapper {
     return {
       id: lesson.id,
       name: lesson.name,
-      description: lesson.description,
+      description: lesson.description.value,
       video_id: lesson.video_id,
       duration: lesson.duration,
       isAvailable: lesson.isAvailable,
