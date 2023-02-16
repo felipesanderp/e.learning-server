@@ -19,6 +19,24 @@ model Courses {
 
   isAvailable Boolean? @default(true)
 
+  lessons Lessons[]
+
   canceledAt DateTime?
   createdAt  DateTime  @default(now())
+}
+
+model Lessons {
+  id          String   @id
+  name        String   @unique
+  description String
+  video_id    String
+  duration    Int
+  isAvailable Boolean? @default(true)
+
+  course    Courses? @relation(fields: [coursesId], references: [id])
+  course_id String?
+
+  canceledAt DateTime?
+  createdAt  DateTime  @default(now())
+  coursesId  String?
 }
