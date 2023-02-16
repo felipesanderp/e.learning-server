@@ -11,7 +11,11 @@ export class PrismaLessonsRepository implements LessonsRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(lesson: Lesson): Promise<void> {
-    throw new Error('Method not implemented.');
+    const raw = PrismaLessonMapper.toPrisma(lesson);
+
+    await this.prisma.lessons.create({
+      data: raw,
+    });
   }
 
   async findByName(name: string): Promise<Lesson | null> {
