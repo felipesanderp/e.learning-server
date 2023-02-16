@@ -43,7 +43,9 @@ export class PrismaLessonsRepository implements LessonsRepository {
   }
 
   async findAllLessons(): Promise<Lesson[]> {
-    throw new Error('Method not implemented.');
+    const lessons = await this.prisma.lessons.findMany();
+
+    return lessons.map(PrismaLessonMapper.toDomain);
   }
 
   async remove(id: string): Promise<void> {
