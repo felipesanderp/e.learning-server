@@ -79,7 +79,11 @@ export class PrismaLessonsRepository implements LessonsRepository {
   }
 
   async remove(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    await this.prisma.lessons.delete({
+      where: {
+        id,
+      },
+    });
   }
 
   async save(lesson: Lesson): Promise<void> {
