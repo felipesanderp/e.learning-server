@@ -4,6 +4,7 @@ import { Lesson } from '@application/entities/lesson';
 import { LessonsRepository } from '@application/repositories/lessons-repository';
 
 import { PrismaService } from '../prisma.service';
+import { PrismaLessonMapper } from '../mappers/prisma-lesson-mapper';
 
 @Injectable()
 export class PrismaLessonsRepository implements LessonsRepository {
@@ -14,7 +15,17 @@ export class PrismaLessonsRepository implements LessonsRepository {
   }
 
   async findByName(name: string): Promise<Lesson | null> {
-    throw new Error('Method not implemented.');
+    const lesson = await this.prisma.lessons.findFirst({
+      where: {
+        name,
+      },
+    });
+
+    if (!lesson) {
+      return null;
+    }
+
+    return PrismaLessonMapper.toDomain(lesson);
   }
 
   async findById(id: string): Promise<Lesson | null> {
