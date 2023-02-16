@@ -48,21 +48,31 @@ export class PrismaLessonsRepository implements LessonsRepository {
     return lessons.map(PrismaLessonMapper.toDomain);
   }
 
-  async remove(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
+  async findLessonByCourseId(
+    courseId: string | null | undefined,
+  ): Promise<Lesson | null> {
+    const lesson = await this.prisma.lessons.findFirst({
+      where: {
+        course_id: courseId,
+      },
+    });
 
-  async save(lesson: Lesson): Promise<void> {
-    throw new Error('Method not implemented.');
+    if (!lesson) {
+      return null;
+    }
+
+    return PrismaLessonMapper.toDomain(lesson);
   }
 
   async findAllAvailableLessons(): Promise<Lesson[]> {
     throw new Error('Method not implemented.');
   }
 
-  async findLessonByCourseId(
-    courseId: string | undefined,
-  ): Promise<Lesson | null> {
+  async remove(id: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  async save(lesson: Lesson): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }
