@@ -83,7 +83,7 @@ export class PrismaLessonsRepository implements LessonsRepository {
   }
 
   async remove(id: string): Promise<void> {
-    await this.prisma.lessons.delete({
+    await this.prisma.lessons.deleteMany({
       where: {
         id,
       },
@@ -93,7 +93,7 @@ export class PrismaLessonsRepository implements LessonsRepository {
   async save(lesson: Lesson): Promise<void> {
     const raw = PrismaLessonMapper.toPrisma(lesson);
 
-    await this.prisma.lessons.update({
+    await this.prisma.lessons.updateMany({
       where: {
         id: raw.id,
       },

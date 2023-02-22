@@ -54,6 +54,17 @@ describe('Lessons Controller', () => {
         course_id: course.id,
       },
     });
+
+    await prisma.lessons.create({
+      data: {
+        id: randomUUID(),
+        name: 'canceled-lesson',
+        description: 'canceled-lesson-description',
+        duration: 60,
+        video_id: 'lesson-video_id',
+        isAvailable: false,
+      },
+    });
   });
 
   it('(GET) should be able to get all lessons', async () => {
@@ -63,8 +74,12 @@ describe('Lessons Controller', () => {
 
     expect(status).toBe(200);
     expect(body.lessons).toEqual(
-      expect.arrayContaining([expect.objectContaining({ name: 'lesson-1' })]),
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'lesson-1' }),
+        expect.objectContaining({ isAvailable: false }),
+      ]),
     );
+    expect(body.lessons).toHaveLength(3);
   });
 
   it('(GET) should be able to get a lesson by course_id', async () => {
@@ -73,21 +88,60 @@ describe('Lessons Controller', () => {
     );
 
     expect(status).toBe(200);
+    expect(body.lesson).toHaveProperty('course_id', course.id);
   });
 
-  // it('(POST) should be able to create a new lesson', async () => {
-  //   const response = await request(app.getHttpServer())
-  //     .post('/lessons')
-  //     .send({
-  //       name: 'lesson-test',
-  //       description: 'lesson-description',
-  //       video_id: 'video_id_test',
-  //       duration: 60,
-  //     })
-  //     .expect(201);
-  // });
+  it('(GET) should be able to get all available lessons', async () => {
+    const { status, body } = await request(app.getHttpServer()).get(
+      '/lessons/available',
+    );
 
-  // it('(PUT) should be able to update a lesson', async () => {
+    expect(status).toBe(200);
+    expect(body.lessons).toHaveLength(2);
+  });
 
-  // });
+  it('(POST) should be able to create a new lesson', async () => {
+    const { status, body } = await request(app.getHttpServer())
+      .post('/lessons')
+      .send({
+        name: 'lesson-test',
+        description: 'lesson-description',
+        video_id: 'video_id_test',
+        duration: 60,
+      });
+
+    expect(status).toBe(201);
+    expect(body.lesson).toHaveProperty('name');
+  });
+
+  it('(PUT) should be able to update a lesson', async () => {
+    const { status, body } = await request(app.getHttpServer())
+      .put(`/lessons/${lesson.id}/update`)
+      .send({
+        name: 'lesson-updated-name',
+        course_id: course.id,
+      });
+
+    expect(status).toBe(200);
+    expect(body.lesson).toHaveProperty('name', 'lesson-updated-name');
+    expect(body.lesson).toHaveProperty('course_id', course.id);
+  });
+
+  it('(PATCH) should be able to cancel a lesson', async () => {
+    const { status, body } = await request(app.getHttpServer()).patch(
+      `/lessons/${lesson.id}/cancel`,
+    );
+
+    expect(status).toBe(200);
+    expect(body.lesson).toHaveProperty('isAvailable', false);
+    expect(body.lesson).toHaveProperty('canceledAt');
+  });
+
+  it('(DELETE) should be able to delete a lesson', async () => {
+    const { status } = await request(app.getHttpServer()).delete(
+      `/lessons/${lesson.id}/remove`,
+    );
+
+    expect(status).toBe(200);
+  });
 });
