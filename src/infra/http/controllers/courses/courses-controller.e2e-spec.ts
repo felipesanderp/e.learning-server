@@ -1,43 +1,70 @@
 import request from 'supertest';
 import { Test } from '@nestjs/testing';
-
 import { INestApplication } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+
 import { DatabaseModule } from '@infra/database/database.module';
 import { HttpModule } from '../../http.module';
+import { PrismaService } from '@infra/database/prisma/prisma.service';
 
-let app: INestApplication;
+import { Courses } from '@prisma/client';
 
 describe('Course Controller', () => {
+  let app: INestApplication;
+  let prisma: PrismaService;
+  let course: Courses;
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [DatabaseModule, HttpModule],
     }).compile();
 
     app = moduleRef.createNestApplication();
+    prisma = app.get<PrismaService>(PrismaService);
+
     await app.init();
+
+    course = await prisma.courses.create({
+      data: {
+        id: randomUUID(),
+        title: 'course-1',
+        description: 'course-description',
+        imageURL: 'image-url',
+      },
+    });
+
+    await prisma.courses.create({
+      data: {
+        id: randomUUID(),
+        title: 'course-2',
+        description: 'course-description',
+        imageURL: 'image-url',
+      },
+    });
   });
 
   it('(GET) should be able to get all courses', async () => {
-    const response = await request(app.getHttpServer())
+    const { body } = await request(app.getHttpServer())
       .get('/courses')
       .expect(200);
 
-    expect(response.body).toEqual(expect.objectContaining({ courses: [] }));
+    expect(body.courses).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ title: 'course-1' }),
+        expect.objectContaining({ title: 'course-2' }),
+      ]),
+    );
+    expect(body.courses).toHaveLength(2);
   });
 
   it('(GET) should be able to get a course by id', async () => {
-    const course = await request(app.getHttpServer()).post('/courses').send({
-      title: 'course-title',
-      description: 'course-description',
-      imageURL: 'image-url-example',
-    });
-
-    const response = await request(app.getHttpServer()).get(
-      `/courses/${course.body.course.id}`,
+    const { status, body } = await request(app.getHttpServer()).get(
+      `/courses/${course.id}`,
     );
 
-    expect(response.body.course.id).toEqual(course.body.course.id);
-    expect(response.body.course.title).toEqual(course.body.course.title);
+    expect(status).toBe(200);
+    expect(body.course.id).toEqual(course.id);
+    expect(body.course.title).toEqual(course.title);
   });
 
   it('(GET) should not be able to get a non existing course by id', async () => {
@@ -49,97 +76,81 @@ describe('Course Controller', () => {
   });
 
   it('(POST) should be able to create a new course', async () => {
-    const response = await request(app.getHttpServer()).post('/courses').send({
-      title: 'New Course Title',
-      description: 'Course Description',
-      imageURL: 'image-url-example',
-    });
+    const { status, body } = await request(app.getHttpServer())
+      .post('/courses')
+      .send({
+        title: 'New Course Title',
+        description: 'Course Description',
+        imageURL: 'image-url-example',
+      });
 
-    expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty(['course', 'id']);
-    expect(response.body.error).toBeFalsy();
+    expect(status).toBe(201);
+    expect(body).toHaveProperty(['course', 'id']);
+    expect(body.error).toBeFalsy();
   });
 
   it('(POST) should not be able to create a new course with existing title', async () => {
-    await request(app.getHttpServer()).post('/courses').send({
-      title: 'existing-course',
-      description: 'Course Description',
-      imageURL: 'image-url-example',
-    });
+    const { status } = await request(app.getHttpServer())
+      .post('/courses')
+      .send({
+        title: 'course-1',
+        description: 'course-description',
+        imageURL: 'image-url-example',
+      });
 
-    const response = await request(app.getHttpServer()).post('/courses').send({
-      title: 'existing-course',
-      description: 'Course Description',
-      imageURL: 'image-url-example',
-    });
-
-    expect(response.status).toBe(400);
+    expect(status).toBe(400);
   });
 
   it('(PUT) should be able to update a course', async () => {
-    const course = await request(app.getHttpServer()).post('/courses').send({
-      title: 'update-course',
-      description: 'Course Description',
-      imageURL: 'image-url-example',
-    });
-
-    const response = await request(app.getHttpServer())
-      .put(`/courses/${course.body.course.id}/update`)
+    const { status, body } = await request(app.getHttpServer())
+      .put(`/courses/${course.id}/update`)
       .send({
         title: 'course-title-updated',
       });
 
-    expect(response.status).toBe(200);
-    expect(response.body.course.title).toEqual('course-title-updated');
-    expect(response.body.course.description).toEqual(
-      expect.objectContaining({ description: 'Course Description' }),
+    expect(status).toBe(200);
+    expect(body.course.title).toEqual('course-title-updated');
+    expect(body.course.description).toEqual(
+      expect.objectContaining({ description: 'course-description' }),
     );
   });
 
   it('(PUT) should not be able to update a non existing course', async () => {
-    const response = await request(app.getHttpServer())
+    const { status } = await request(app.getHttpServer())
       .put('/courses/non-existing-course-id/update')
       .send({
         title: 'course-title-updated',
       });
 
-    expect(response.status).toBe(404);
+    expect(status).toBe(404);
   });
 
   it('(PATCH) should be able to cancel a course', async () => {
-    const course = await request(app.getHttpServer()).post('/courses').send({
-      title: 'cancel-course-title',
-      description: 'course-description',
-      imageURL: 'image-url-example',
-    });
+    const { status, body } = await request(app.getHttpServer()).patch(
+      `/courses/${course.id}/cancel`,
+    );
 
-    const response = await request(app.getHttpServer())
-      .patch(`/courses/${course.body.course.id}/cancel`)
-      .expect(200);
+    expect(status).toBe(200);
 
-    expect(response.body.course.isAvailable).toBeFalsy();
-    expect(response.body.course).toHaveProperty('canceledAt');
+    expect(body.course.isAvailable).toBeFalse();
+    expect(body.course).toHaveProperty('canceledAt');
   });
 
   it('(PATCH) should not be able to cancel a non existing course', async () => {
-    const response = await request(app.getHttpServer()).patch(
+    const { status, body } = await request(app.getHttpServer()).patch(
       '/courses/non-existing-course/cancel',
     );
 
-    expect(response.status).toBe(404);
-    expect(response.body.message).toBe('Course not found!');
+    expect(status).toBe(404);
+    expect(body.message).toBe('Course not found!');
   });
 
   it('(DELETE) should be able to delete a course', async () => {
-    const course = await request(app.getHttpServer()).post('/courses').send({
-      title: 'delete-course-title',
-      description: 'course-description',
-      imageURL: 'image-url-example',
-    });
+    const { status } = await request(app.getHttpServer()).delete(
+      `/courses/${course.id}/remove`,
+    );
 
-    await request(app.getHttpServer())
-      .delete(`/courses/${course.body.course.id}/remove`)
-      .expect(200);
+    expect(status).toBe(200);
   });
 
   it('(DELETE) should not be able to remove a non existing course', async () => {
