@@ -11,7 +11,7 @@ interface UserProps {
   updatedAt?: Date | null;
 }
 
-export class Users {
+export class User {
   private _id: string;
   private props: UserProps;
 

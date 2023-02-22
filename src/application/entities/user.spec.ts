@@ -1,8 +1,8 @@
-import { Users } from './users';
+import { User } from './user';
 
-describe('Users', () => {
+describe('User', () => {
   it('should be able to create a new User', () => {
-    const user = new Users({
+    const user = new User({
       name: 'John',
       surname: 'Doe',
       email: 'john@example.com',
