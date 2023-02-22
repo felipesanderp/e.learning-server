@@ -7,7 +7,7 @@ describe('User', () => {
       surname: 'Doe',
       email: 'john@example.com',
       password: 'password',
-      role: 'student',
+      role: 'STUDENT',
     });
 
     expect(user).toBeTruthy();

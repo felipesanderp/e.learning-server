@@ -6,7 +6,7 @@ interface UserProps {
   surname?: string;
   email: string;
   password: string;
-  role: string;
+  role: 'ADMIN' | 'PROFESSOR' | 'STUDENT';
   createdAt: Date;
   updatedAt?: Date | null;
 }
@@ -59,11 +59,11 @@ export class User {
     this.props.password = password;
   }
 
-  public get role(): string {
+  public get role(): 'ADMIN' | 'PROFESSOR' | 'STUDENT' {
     return this.props.role;
   }
 
-  public set role(role: string) {
+  public set role(role: 'ADMIN' | 'PROFESSOR' | 'STUDENT') {
     this.props.role = role;
   }
 
