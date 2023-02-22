@@ -1,13 +1,13 @@
 import request from 'supertest';
 import { Test } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 
 import { Courses, Lessons } from '@prisma/client';
 
-import { INestApplication } from '@nestjs/common';
-import { DatabaseModule } from '@infra/database/database.module';
 import { HttpModule } from '../../http.module';
+import { DatabaseModule } from '@infra/database/database.module';
 import { PrismaService } from '@infra/database/prisma/prisma.service';
-import { randomUUID } from 'crypto';
 
 describe('Lessons Controller', () => {
   let app: INestApplication;
@@ -112,6 +112,17 @@ describe('Lessons Controller', () => {
 
     expect(status).toBe(201);
     expect(body.lesson).toHaveProperty('name');
+  });
+
+  it('(POST) should not be able to create a new lesson with existing name', async () => {
+    const { status, body } = await request(app.getHttpServer())
+      .post('/lessons')
+      .send({
+        name: 'lesson-1',
+      });
+
+    expect(status).toBe(400);
+    expect(body.message).toBe('Lesson already exists!');
   });
 
   it('(PUT) should be able to update a lesson', async () => {
