@@ -51,7 +51,7 @@ export class UpdateLesson {
 
       if (!courseExists) throw new CourseNotFound();
 
-      findLesson.course_id = courseExists.id;
+      findLesson.course_id = lesson.course_id;
     }
 
     await this.lessonsRepository.save(findLesson);

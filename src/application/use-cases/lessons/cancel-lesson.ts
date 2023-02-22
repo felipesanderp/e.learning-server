@@ -1,7 +1,7 @@
 import { Lesson } from '@application/entities/lesson';
 import { LessonsRepository } from '@application/repositories/lessons-repository';
 import { Injectable } from '@nestjs/common';
-import { CourseNotFound } from '../errors/course-not-found';
+import { LessonNotFound } from '../errors/lesson-not-found';
 
 interface CancelLessonResponse {
   lesson: Lesson;
@@ -15,7 +15,7 @@ export class CancelLesson {
     const lesson = await this.lessonsRepository.findById(courseId);
 
     if (!lesson) {
-      throw new CourseNotFound();
+      throw new LessonNotFound();
     }
 
     lesson.cancel();

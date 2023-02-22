@@ -1,6 +1,7 @@
 import { makeLesson } from '../../../../test/factories/lesson-factory';
 import { InMemoryLessonsRepository } from '../../../../test/repositories/in-memory-lessons-repository';
-import { CourseNotFound } from '../errors/course-not-found';
+
+import { LessonNotFound } from '../errors/lesson-not-found';
 import { CancelLesson } from './cancel-lesson';
 
 describe('Cancel Lesson', () => {
@@ -23,6 +24,6 @@ describe('Cancel Lesson', () => {
 
     expect(() => {
       return cancelLesson.execute('fake-course-id');
-    }).rejects.toThrow(CourseNotFound);
+    }).rejects.toThrow(LessonNotFound);
   });
 });
